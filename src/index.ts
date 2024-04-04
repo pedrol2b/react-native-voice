@@ -18,7 +18,7 @@ import {
 
 const Voice = NativeModules.Voice as VoiceModule;
 
-// NativeEventEmitter is only availabe on React Native platforms, so this conditional is used to avoid import conflicts in the browser/server
+// NativeEventEmitter is only available on React Native platforms, so this conditional is used to avoid import conflicts in the browser/server
 const voiceEmitter =
   Platform.OS !== 'web' ? new NativeEventEmitter(Voice) : null;
 type SpeechEvent = keyof SpeechEvents;
