@@ -5,7 +5,7 @@ import {
   withInfoPlist,
 } from '@expo/config-plugins';
 
-const pkg = require('@react-native-voice/voice/package.json');
+const pkg = require('@pedrol2b/react-native-voice/package.json');
 
 const MICROPHONE = 'Allow $(PRODUCT_NAME) to access the microphone';
 
