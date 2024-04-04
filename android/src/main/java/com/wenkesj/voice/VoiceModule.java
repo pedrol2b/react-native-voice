@@ -59,11 +59,12 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
       speech.destroy();
       speech = null;
     }
-    
-    if(opts.hasKey("RECOGNIZER_ENGINE")) {
+
+    if (opts.hasKey("RECOGNIZER_ENGINE")) {
       switch (opts.getString("RECOGNIZER_ENGINE")) {
         case "GOOGLE": {
-          speech = SpeechRecognizer.createSpeechRecognizer(this.reactContext, ComponentName.unflattenFromString("com.google.android.googlequicksearchbox/com.google.android.voicesearch.serviceapi.GoogleRecognitionService"));
+          speech = SpeechRecognizer.createSpeechRecognizer(this.reactContext, ComponentName.unflattenFromString(
+              "com.google.android.googlequicksearchbox/com.google.android.voicesearch.serviceapi.GoogleRecognitionService"));
           break;
         }
         default:
@@ -116,7 +117,8 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
         }
         case "EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS": {
           Double extras = opts.getDouble(key);
-          intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, extras.intValue());
+          intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,
+              extras.intValue());
           break;
         }
       }
@@ -152,21 +154,22 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
   @ReactMethod
   public void startSpeech(final String locale, final ReadableMap opts, final Callback callback) {
     if (!isPermissionGranted() && opts.getBoolean("REQUEST_PERMISSIONS_AUTO")) {
-      String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
+      String[] PERMISSIONS = { Manifest.permission.RECORD_AUDIO };
       if (this.getCurrentActivity() != null) {
-        ((PermissionAwareActivity) this.getCurrentActivity()).requestPermissions(PERMISSIONS, 1, new PermissionListener() {
-          public boolean onRequestPermissionsResult(final int requestCode,
-                                                    @NonNull final String[] permissions,
-                                                    @NonNull final int[] grantResults) {
-            boolean permissionsGranted = true;
-            for (int i = 0; i < permissions.length; i++) {
-              final boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
-              permissionsGranted = permissionsGranted && granted;
-            }
-            startSpeechWithPermissions(locale, opts, callback);
-            return permissionsGranted;
-          }
-        });
+        ((PermissionAwareActivity) this.getCurrentActivity()).requestPermissions(PERMISSIONS, 1,
+            new PermissionListener() {
+              public boolean onRequestPermissionsResult(final int requestCode,
+                  @NonNull final String[] permissions,
+                  @NonNull final int[] grantResults) {
+                boolean permissionsGranted = true;
+                for (int i = 0; i < permissions.length; i++) {
+                  final boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                  permissionsGranted = permissionsGranted && granted;
+                }
+                startSpeechWithPermissions(locale, opts, callback);
+                return permissionsGranted;
+              }
+            });
       }
       return;
     }
@@ -185,7 +188,7 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
           }
           isRecognizing = false;
           callback.invoke(false);
-        } catch(Exception e) {
+        } catch (Exception e) {
           callback.invoke(e.getMessage());
         }
       }
@@ -204,7 +207,7 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
           }
           isRecognizing = false;
           callback.invoke(false);
-        } catch(Exception e) {
+        } catch (Exception e) {
           callback.invoke(e.getMessage());
         }
       }
@@ -224,7 +227,7 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
           speech = null;
           isRecognizing = false;
           callback.invoke(false);
-        } catch(Exception e) {
+        } catch (Exception e) {
           callback.invoke(e.getMessage());
         }
       }
@@ -241,7 +244,7 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
         try {
           Boolean isSpeechAvailable = SpeechRecognizer.isRecognitionAvailable(self.reactContext);
           callback.invoke(isSpeechAvailable, false);
-        } catch(Exception e) {
+        } catch (Exception e) {
           callback.invoke(false, e.getMessage());
         }
       }
@@ -273,8 +276,8 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
 
   private void sendEvent(String eventName, @Nullable WritableMap params) {
     this.reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit(eventName, params);
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(eventName, params);
   }
 
   @Override
@@ -315,7 +318,8 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
   }
 
   @Override
-  public void onEvent(int arg0, Bundle arg1) { }
+  public void onEvent(int arg0, Bundle arg1) {
+  }
 
   @Override
   public void onPartialResults(Bundle results) {
@@ -400,5 +404,15 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
         break;
     }
     return message;
+  }
+
+  @ReactMethod
+  public void addListener(String eventName) {
+
+  }
+
+  @ReactMethod
+  public void removeListeners(Integer count) {
+
   }
 }
