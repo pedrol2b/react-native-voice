@@ -1,30 +1,31 @@
-import { NativeModules, NativeEventEmitter, Platform } from 'react-native'
 import invariant from 'invariant'
+import { NativeEventEmitter, NativeModules, Platform } from 'react-native'
 import {
-  VoiceModule,
-  SpeechEvents,
-  TranscriptionEvents,
-  TranscriptionEndEvent,
-  TranscriptionErrorEvent,
-  TranscriptionStartEvent,
-  SpeechRecognizedEvent,
-  SpeechErrorEvent,
-  SpeechResultsEvent,
-  SpeechStartEvent,
-  SpeechEndEvent,
-  SpeechVolumeChangeEvent,
-  TranscriptionResultsEvent,
+  type SpeechEndEvent,
+  type SpeechErrorEvent,
+  type SpeechEvents,
+  type SpeechRecognizedEvent,
+  type SpeechResultsEvent,
+  type SpeechStartEvent,
+  type SpeechVolumeChangeEvent,
+  type TranscriptionEndEvent,
+  type TranscriptionErrorEvent,
+  type TranscriptionEvents,
+  type TranscriptionResultsEvent,
+  type TranscriptionStartEvent,
 } from './VoiceModuleTypes'
 
-const Voice = NativeModules.Voice as VoiceModule
+const Voice = NativeModules.Voice
 
 // NativeEventEmitter is only available on React Native platforms, so this conditional is used to avoid import conflicts in the browser/server
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 const voiceEmitter = Platform.OS !== 'web' ? new NativeEventEmitter(Voice) : null
 type SpeechEvent = keyof SpeechEvents
 type TranscriptionEvent = keyof TranscriptionEvents
 
 class RCTVoice {
   _loaded: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _listeners: any[] | null
   _events: Required<SpeechEvents> & Required<TranscriptionEvents>
 
@@ -60,32 +61,14 @@ class RCTVoice {
     Voice.onTranscriptionResults = undefined
   }
 
-  destroy() {
+  async destroy() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve()
+      return await Promise.resolve()
     }
-    return new Promise<void | Error>((resolve, reject) => {
-      Voice.destroySpeech((error: string) => {
+    return await new Promise<void>((resolve, reject) => {
+      Voice.destroySpeech((error: Error) => {
         if (error) {
-          reject(new Error(error))
-        } else {
-          if (this._listeners) {
-            this._listeners.map((listener) => listener.remove())
-            this._listeners = null
-          }
-          resolve()
-        }
-      })
-    })
-  }
-  destroyTranscription() {
-    if (!this._loaded && !this._listeners) {
-      return Promise.resolve()
-    }
-    return new Promise<void | Error>((resolve, reject) => {
-      Voice.destroyTranscription((error: string) => {
-        if (error) {
-          reject(new Error(error))
+          reject(error ?? new Error(error))
         } else {
           if (this._listeners) {
             this._listeners.map((listener) => listener.remove())
@@ -97,17 +80,37 @@ class RCTVoice {
     })
   }
 
-  start(locale: any, options = {}) {
+  async destroyTranscription() {
+    if (!this._loaded && !this._listeners) {
+      return await Promise.resolve()
+    }
+    return await new Promise<void>((resolve, reject) => {
+      Voice.destroyTranscription((error: Error) => {
+        if (error) {
+          reject(error ?? new Error(error))
+        } else {
+          if (this._listeners) {
+            this._listeners.map((listener) => listener.remove())
+            this._listeners = null
+          }
+          resolve()
+        }
+      })
+    })
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async start(locale: any, options = {}) {
     if (!this._loaded && !this._listeners && voiceEmitter !== null) {
       this._listeners = (Object.keys(this._events) as SpeechEvent[]).map((key: SpeechEvent) =>
         voiceEmitter.addListener(key, this._events[key]),
       )
     }
 
-    return new Promise<void | Error>((resolve, reject) => {
-      const callback = (error: string) => {
+    return await new Promise<void>((resolve, reject) => {
+      const callback = (error: Error) => {
         if (error) {
-          reject(new Error(error))
+          reject(error ?? new Error(error))
         } else {
           resolve()
         }
@@ -131,17 +134,19 @@ class RCTVoice {
       }
     })
   }
-  startTranscription(url: any, locale: any, options = {}) {
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async startTranscription(url: any, locale: any, options = {}) {
     if (!this._loaded && !this._listeners && voiceEmitter !== null) {
       this._listeners = (Object.keys(this._events) as TranscriptionEvent[]).map((key: TranscriptionEvent) =>
         voiceEmitter.addListener(key, this._events[key]),
       )
     }
 
-    return new Promise<void | Error>((resolve, reject) => {
-      const callback = (error: string) => {
+    return await new Promise<void>((resolve, reject) => {
+      const callback = (error: Error) => {
         if (error) {
-          reject(new Error(error))
+          reject(error ?? new Error(error))
         } else {
           resolve()
         }
@@ -166,64 +171,69 @@ class RCTVoice {
       }
     })
   }
-  stop() {
+
+  async stop() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve()
+      return await Promise.resolve()
     }
-    return new Promise<void | Error>((resolve, reject) => {
-      Voice.stopSpeech((error) => {
+    return await new Promise<void>((resolve, reject) => {
+      Voice.stopSpeech((error: Error) => {
         if (error) {
-          reject(new Error(error))
+          reject(error ?? new Error(error))
         } else {
           resolve()
         }
       })
     })
   }
-  stopTranscription() {
+
+  async stopTranscription() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve()
+      return await Promise.resolve()
     }
-    return new Promise<void | Error>((resolve, reject) => {
-      Voice.stopTranscription((error) => {
+    return await new Promise<void>((resolve, reject) => {
+      Voice.stopTranscription((error: Error) => {
         if (error) {
-          reject(new Error(error))
+          reject(error ?? new Error(error))
         } else {
           resolve()
         }
       })
     })
   }
-  cancel() {
+
+  async cancel() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve()
+      return await Promise.resolve()
     }
-    return new Promise<void | Error>((resolve, reject) => {
-      Voice.cancelSpeech((error) => {
+    return await new Promise<void>((resolve, reject) => {
+      Voice.cancelSpeech((error: Error) => {
         if (error) {
-          reject(new Error(error))
+          reject(error ?? new Error(error))
         } else {
           resolve()
         }
       })
     })
   }
-  cancelTranscription() {
+
+  async cancelTranscription() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve()
+      return await Promise.resolve()
     }
-    return new Promise<void | Error>((resolve, reject) => {
-      Voice.cancelSpeech((error) => {
+    return await new Promise<void>((resolve, reject) => {
+      Voice.cancelSpeech((error: Error) => {
         if (error) {
-          reject(new Error(error))
+          reject(error ?? new Error(error))
         } else {
           resolve()
         }
       })
     })
   }
-  isAvailable(): Promise<0 | 1> {
-    return new Promise((resolve, reject) => {
+
+  async isAvailable(): Promise<0 | 1> {
+    return await new Promise((resolve, reject) => {
       Voice.isSpeechAvailable((isAvailable: 0 | 1, error: string) => {
         if (error) {
           reject(new Error(error))
@@ -246,67 +256,81 @@ class RCTVoice {
     return Voice.getSpeechRecognitionServices()
   }
 
-  isRecognizing(): Promise<0 | 1> {
-    return new Promise((resolve) => {
+  async isRecognizing(): Promise<0 | 1> {
+    return await new Promise((resolve) => {
       Voice.isRecognizing((isRecognizing: 0 | 1) => resolve(isRecognizing))
     })
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onSpeechStart(fn: (e: SpeechStartEvent) => void) {
     this._events.onSpeechStart = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onTranscriptionStart(fn: (e: TranscriptionStartEvent) => void) {
     this._events.onTranscriptionStart = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onSpeechRecognized(fn: (e: SpeechRecognizedEvent) => void) {
     this._events.onSpeechRecognized = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onSpeechEnd(fn: (e: SpeechEndEvent) => void) {
     this._events.onSpeechEnd = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onTranscriptionEnd(fn: (e: SpeechEndEvent) => void) {
     this._events.onTranscriptionEnd = fn
   }
+
+  // eslint-disable-next-line accessor-pairs
   set onSpeechError(fn: (e: SpeechErrorEvent) => void) {
     this._events.onSpeechError = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onTranscriptionError(fn: (e: TranscriptionErrorEvent) => void) {
     this._events.onTranscriptionError = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onSpeechResults(fn: (e: SpeechResultsEvent) => void) {
     this._events.onSpeechResults = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onTranscriptionResults(fn: (e: TranscriptionResultsEvent) => void) {
     this._events.onTranscriptionResults = fn
   }
 
+  // eslint-disable-next-line accessor-pairs
   set onSpeechPartialResults(fn: (e: SpeechResultsEvent) => void) {
     this._events.onSpeechPartialResults = fn
   }
+
+  // eslint-disable-next-line accessor-pairs
   set onSpeechVolumeChanged(fn: (e: SpeechVolumeChangeEvent) => void) {
     this._events.onSpeechVolumeChanged = fn
   }
 }
 
-export {
+export type {
   SpeechEndEvent,
   SpeechErrorEvent,
   SpeechEvents,
-  SpeechStartEvent,
   SpeechRecognizedEvent,
   SpeechResultsEvent,
+  SpeechStartEvent,
   SpeechVolumeChangeEvent,
   TranscriptionEndEvent,
   TranscriptionErrorEvent,
   TranscriptionEvents,
-  TranscriptionStartEvent,
   TranscriptionResultsEvent,
+  TranscriptionStartEvent,
 }
+
 export default new RCTVoice()

@@ -1,4 +1,5 @@
-import { EventSubscriptionVendor } from 'react-native'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { type EventSubscription } from 'react-native'
 
 type Callback = (error: string) => void
 
@@ -7,22 +8,22 @@ export type VoiceModule = {
    * Gets list of SpeechRecognitionServices used.
    * @platform android
    */
-  getSpeechRecognitionServices: () => Promise<string[]> | void
+  getSpeechRecognitionServices: () => Promise<string[]>
   destroySpeech: (callback: Callback) => void
   destroyTranscription: (callback: Callback) => void
-  startSpeech: Function
-  startTranscription: Function
+  startSpeech: (locale: any, options?: any) => Promise<void>
+  startTranscription: (url: any, locale: any, options?: any) => Promise<void>
   stopSpeech: (callback: Callback) => void
   stopTranscription: (callback: Callback) => void
   cancelSpeech: (callback: Callback) => void
   cancelTranscription: (callback: Callback) => void
-  isRecognizing: Function
-  isSpeechAvailable: Function
+  isRecognizing: () => Promise<0 | 1>
+  isSpeechAvailable: () => Promise<0 | 1>
 } & SpeechEvents &
   TranscriptionEvents &
-  EventSubscriptionVendor
+  EventSubscription
 
-export type SpeechEvents = {
+export interface SpeechEvents {
   onSpeechStart?: (e: SpeechStartEvent) => void
   onSpeechRecognized?: (e: SpeechRecognizedEvent) => void
   onSpeechEnd?: (e: SpeechEndEvent) => void
@@ -32,57 +33,57 @@ export type SpeechEvents = {
   onSpeechVolumeChanged?: (e: SpeechVolumeChangeEvent) => void
 }
 
-export type TranscriptionEvents = {
+export interface TranscriptionEvents {
   onTranscriptionStart?: (e: TranscriptionStartEvent) => void
   onTranscriptionEnd?: (e: TranscriptionEndEvent) => void
   onTranscriptionError?: (e: TranscriptionErrorEvent) => void
   onTranscriptionResults?: (e: TranscriptionResultsEvent) => void
 }
 
-export type SpeechStartEvent = {
+export interface SpeechStartEvent {
   error?: boolean
 }
 
-export type TranscriptionStartEvent = {
+export interface TranscriptionStartEvent {
   error?: boolean
 }
 
-export type SpeechRecognizedEvent = {
+export interface SpeechRecognizedEvent {
   isFinal?: boolean
 }
 
-export type SpeechResultsEvent = {
+export interface SpeechResultsEvent {
   value?: string[]
 }
 
-export type TranscriptionResultsEvent = {
+export interface TranscriptionResultsEvent {
   segments?: string[]
   transcription?: string
   isFinal?: boolean
 }
 
-export type SpeechErrorEvent = {
+export interface SpeechErrorEvent {
   error?: {
     code?: string
     message?: string
   }
 }
 
-export type TranscriptionErrorEvent = {
+export interface TranscriptionErrorEvent {
   error?: {
     code?: string
     message?: string
   }
 }
 
-export type SpeechEndEvent = {
+export interface SpeechEndEvent {
   error?: boolean
 }
 
-export type TranscriptionEndEvent = {
+export interface TranscriptionEndEvent {
   error?: boolean
 }
 
-export type SpeechVolumeChangeEvent = {
+export interface SpeechVolumeChangeEvent {
   value?: number
 }
