@@ -1,0 +1,15 @@
+# Directories
+node_modules/
+coverage/
+android/
+ios/
+build/
+dist/
+
+# File types
+*.svg
+*.png
+*.jpeg
+*.json
+/*.js
+/*.cjs
