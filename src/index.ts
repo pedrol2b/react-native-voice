@@ -1,5 +1,5 @@
-import { NativeModules, NativeEventEmitter, Platform } from 'react-native';
-import invariant from 'invariant';
+import { NativeModules, NativeEventEmitter, Platform } from 'react-native'
+import invariant from 'invariant'
 import {
   VoiceModule,
   SpeechEvents,
@@ -14,24 +14,23 @@ import {
   SpeechEndEvent,
   SpeechVolumeChangeEvent,
   TranscriptionResultsEvent,
-} from './VoiceModuleTypes';
+} from './VoiceModuleTypes'
 
-const Voice = NativeModules.Voice as VoiceModule;
+const Voice = NativeModules.Voice as VoiceModule
 
 // NativeEventEmitter is only available on React Native platforms, so this conditional is used to avoid import conflicts in the browser/server
-const voiceEmitter =
-  Platform.OS !== 'web' ? new NativeEventEmitter(Voice) : null;
-type SpeechEvent = keyof SpeechEvents;
-type TranscriptionEvent = keyof TranscriptionEvents;
+const voiceEmitter = Platform.OS !== 'web' ? new NativeEventEmitter(Voice) : null
+type SpeechEvent = keyof SpeechEvents
+type TranscriptionEvent = keyof TranscriptionEvents
 
 class RCTVoice {
-  _loaded: boolean;
-  _listeners: any[] | null;
-  _events: Required<SpeechEvents> & Required<TranscriptionEvents>;
+  _loaded: boolean
+  _listeners: any[] | null
+  _events: Required<SpeechEvents> & Required<TranscriptionEvents>
 
   constructor() {
-    this._loaded = false;
-    this._listeners = null;
+    this._loaded = false
+    this._listeners = null
     this._events = {
       onSpeechStart: () => {},
       onSpeechRecognized: () => {},
@@ -44,75 +43,75 @@ class RCTVoice {
       onTranscriptionEnd: () => {},
       onTranscriptionError: () => {},
       onTranscriptionResults: () => {},
-    };
+    }
   }
 
   removeAllListeners() {
-    Voice.onSpeechStart = undefined;
-    Voice.onSpeechRecognized = undefined;
-    Voice.onSpeechEnd = undefined;
-    Voice.onSpeechError = undefined;
-    Voice.onSpeechResults = undefined;
-    Voice.onSpeechPartialResults = undefined;
-    Voice.onSpeechVolumeChanged = undefined;
-    Voice.onTranscriptionStart = undefined;
-    Voice.onTranscriptionEnd = undefined;
-    Voice.onTranscriptionError = undefined;
-    Voice.onTranscriptionResults = undefined;
+    Voice.onSpeechStart = undefined
+    Voice.onSpeechRecognized = undefined
+    Voice.onSpeechEnd = undefined
+    Voice.onSpeechError = undefined
+    Voice.onSpeechResults = undefined
+    Voice.onSpeechPartialResults = undefined
+    Voice.onSpeechVolumeChanged = undefined
+    Voice.onTranscriptionStart = undefined
+    Voice.onTranscriptionEnd = undefined
+    Voice.onTranscriptionError = undefined
+    Voice.onTranscriptionResults = undefined
   }
 
   destroy() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
     return new Promise<void | Error>((resolve, reject) => {
       Voice.destroySpeech((error: string) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
           if (this._listeners) {
-            this._listeners.map(listener => listener.remove());
-            this._listeners = null;
+            this._listeners.map((listener) => listener.remove())
+            this._listeners = null
           }
-          resolve();
+          resolve()
         }
-      });
-    });
+      })
+    })
   }
   destroyTranscription() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
     return new Promise<void | Error>((resolve, reject) => {
       Voice.destroyTranscription((error: string) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
           if (this._listeners) {
-            this._listeners.map(listener => listener.remove());
-            this._listeners = null;
+            this._listeners.map((listener) => listener.remove())
+            this._listeners = null
           }
-          resolve();
+          resolve()
         }
-      });
-    });
+      })
+    })
   }
 
   start(locale: any, options = {}) {
     if (!this._loaded && !this._listeners && voiceEmitter !== null) {
-      this._listeners = (Object.keys(this._events) as SpeechEvent[]).map(
-        (key: SpeechEvent) => voiceEmitter.addListener(key, this._events[key]),
-      );
+      this._listeners = (Object.keys(this._events) as SpeechEvent[]).map((key: SpeechEvent) =>
+        voiceEmitter.addListener(key, this._events[key]),
+      )
     }
 
     return new Promise<void | Error>((resolve, reject) => {
       const callback = (error: string) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
-          resolve();
+          resolve()
         }
-      };
+      }
       if (Platform.OS === 'android') {
         Voice.startSpeech(
           locale,
@@ -126,28 +125,27 @@ class RCTVoice {
             options,
           ),
           callback,
-        );
+        )
       } else {
-        Voice.startSpeech(locale, callback);
+        Voice.startSpeech(locale, callback)
       }
-    });
+    })
   }
   startTranscription(url: any, locale: any, options = {}) {
     if (!this._loaded && !this._listeners && voiceEmitter !== null) {
-      this._listeners = (Object.keys(this._events) as TranscriptionEvent[]).map(
-        (key: TranscriptionEvent) =>
-          voiceEmitter.addListener(key, this._events[key]),
-      );
+      this._listeners = (Object.keys(this._events) as TranscriptionEvent[]).map((key: TranscriptionEvent) =>
+        voiceEmitter.addListener(key, this._events[key]),
+      )
     }
 
     return new Promise<void | Error>((resolve, reject) => {
       const callback = (error: string) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
-          resolve();
+          resolve()
         }
-      };
+      }
       if (Platform.OS === 'android') {
         Voice.startTranscription(
           url,
@@ -162,78 +160,78 @@ class RCTVoice {
             options,
           ),
           callback,
-        );
+        )
       } else {
-        Voice.startTranscription(url, locale, callback);
+        Voice.startTranscription(url, locale, callback)
       }
-    });
+    })
   }
   stop() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
     return new Promise<void | Error>((resolve, reject) => {
-      Voice.stopSpeech(error => {
+      Voice.stopSpeech((error) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
-          resolve();
+          resolve()
         }
-      });
-    });
+      })
+    })
   }
   stopTranscription() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
     return new Promise<void | Error>((resolve, reject) => {
-      Voice.stopTranscription(error => {
+      Voice.stopTranscription((error) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
-          resolve();
+          resolve()
         }
-      });
-    });
+      })
+    })
   }
   cancel() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
     return new Promise<void | Error>((resolve, reject) => {
-      Voice.cancelSpeech(error => {
+      Voice.cancelSpeech((error) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
-          resolve();
+          resolve()
         }
-      });
-    });
+      })
+    })
   }
   cancelTranscription() {
     if (!this._loaded && !this._listeners) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
     return new Promise<void | Error>((resolve, reject) => {
-      Voice.cancelSpeech(error => {
+      Voice.cancelSpeech((error) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
-          resolve();
+          resolve()
         }
-      });
-    });
+      })
+    })
   }
   isAvailable(): Promise<0 | 1> {
     return new Promise((resolve, reject) => {
       Voice.isSpeechAvailable((isAvailable: 0 | 1, error: string) => {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error))
         } else {
-          resolve(isAvailable);
+          resolve(isAvailable)
         }
-      });
-    });
+      })
+    })
   }
 
   /**
@@ -241,62 +239,59 @@ class RCTVoice {
    * */
   getSpeechRecognitionServices() {
     if (Platform.OS !== 'android') {
-      invariant(
-        Voice,
-        'Speech recognition services can be queried for only on Android',
-      );
-      return;
+      invariant(Voice, 'Speech recognition services can be queried for only on Android')
+      return
     }
 
-    return Voice.getSpeechRecognitionServices();
+    return Voice.getSpeechRecognitionServices()
   }
 
   isRecognizing(): Promise<0 | 1> {
-    return new Promise(resolve => {
-      Voice.isRecognizing((isRecognizing: 0 | 1) => resolve(isRecognizing));
-    });
+    return new Promise((resolve) => {
+      Voice.isRecognizing((isRecognizing: 0 | 1) => resolve(isRecognizing))
+    })
   }
 
   set onSpeechStart(fn: (e: SpeechStartEvent) => void) {
-    this._events.onSpeechStart = fn;
+    this._events.onSpeechStart = fn
   }
 
   set onTranscriptionStart(fn: (e: TranscriptionStartEvent) => void) {
-    this._events.onTranscriptionStart = fn;
+    this._events.onTranscriptionStart = fn
   }
 
   set onSpeechRecognized(fn: (e: SpeechRecognizedEvent) => void) {
-    this._events.onSpeechRecognized = fn;
+    this._events.onSpeechRecognized = fn
   }
 
   set onSpeechEnd(fn: (e: SpeechEndEvent) => void) {
-    this._events.onSpeechEnd = fn;
+    this._events.onSpeechEnd = fn
   }
 
   set onTranscriptionEnd(fn: (e: SpeechEndEvent) => void) {
-    this._events.onTranscriptionEnd = fn;
+    this._events.onTranscriptionEnd = fn
   }
   set onSpeechError(fn: (e: SpeechErrorEvent) => void) {
-    this._events.onSpeechError = fn;
+    this._events.onSpeechError = fn
   }
 
   set onTranscriptionError(fn: (e: TranscriptionErrorEvent) => void) {
-    this._events.onTranscriptionError = fn;
+    this._events.onTranscriptionError = fn
   }
 
   set onSpeechResults(fn: (e: SpeechResultsEvent) => void) {
-    this._events.onSpeechResults = fn;
+    this._events.onSpeechResults = fn
   }
 
   set onTranscriptionResults(fn: (e: TranscriptionResultsEvent) => void) {
-    this._events.onTranscriptionResults = fn;
+    this._events.onTranscriptionResults = fn
   }
 
   set onSpeechPartialResults(fn: (e: SpeechResultsEvent) => void) {
-    this._events.onSpeechPartialResults = fn;
+    this._events.onSpeechPartialResults = fn
   }
   set onSpeechVolumeChanged(fn: (e: SpeechVolumeChangeEvent) => void) {
-    this._events.onSpeechVolumeChanged = fn;
+    this._events.onSpeechVolumeChanged = fn
   }
 }
 
@@ -313,5 +308,5 @@ export {
   TranscriptionEvents,
   TranscriptionStartEvent,
   TranscriptionResultsEvent,
-};
-export default new RCTVoice();
+}
+export default new RCTVoice()
