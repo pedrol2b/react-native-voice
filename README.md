@@ -1,49 +1,67 @@
-![CircleCI branch][circle-ci-badge]
+# @pedrol2b/react-native-voice
+
 [![npm][npm]][npm-url]
 
-<h1 align="center">React Native Voice</h1>
-<p align="center">A speech-to-text library for <a href="https://reactnative.dev/">React Native.</a></p>
+> 📝 This is a fork of [react-native-voice/voice](https://github.com/react-native-voice/voice)
 
-<a href="https://discord.gg/CJHKVeW6sp">
-<img src="https://img.shields.io/discord/764994995098615828?label=Discord&logo=Discord&style=for-the-badge"
-            alt="chat on Discord"></a>
+A speech-to-text library for [react native](https://reactnative.dev/).
+
+## :thread: Guides
+
+- [@pedrol2b/react-native-voice](#pedrol2breact-native-voice)
+  - [:thread: Guides](#thread-guides)
+    - [Getting Started](#getting-started)
+      - [Installing the library](#installing-the-library)
+      - [Linking the library](#linking-the-library)
+        - [Auto link](#auto-link)
+        - [Link manually](#link-manually)
+        - [Prebuild Plugin](#prebuild-plugin)
+    - [How to use](#how-to-use)
+    - [Voice API](#voice-api)
+      - [Static](#static)
+      - [Events](#events)
+      - [Permissions](#permissions)
+  - [Contributors](#contributors)
+
+### Getting Started
+
+#### Installing the library
 
 ```sh
 yarn add @pedrol2b/react-native-voice
-
-# or
-
-npm i @pedrol2b/react-native-voice --save
+cd ios && pod install
 ```
 
-Link the iOS package
+or
 
 ```sh
-npx pod-install
+npm i @pedrol2b/react-native-voice
+cd ios && pod install
 ```
 
-## Table of contents
+#### Linking the library
 
-- [Table of contents](#table-of-contents)
-  - [Manually Link Android](#manually-link-android)
-  - [Manually Link iOS](#manually-link-ios)
-  - [Props](#props)
-  - [Example](#example)
-  - [Example](#example-1)
-  - [Android](#android)
-  - [iOS](#ios)
-
-<h2 align="center">Linking</h2>
-
-<p align="center">Manually or automatically link the NativeModule</p>
+##### Auto link
 
 ```sh
 react-native link @pedrol2b/react-native-voice
 ```
 
-### Manually Link Android
+##### Link manually
 
-- In `android/setting.gradle`
+:apple: **iOS**
+
+How to link the library manually on iOS.
+
+- Drag the `Voice.xcodeproj` from the `@pedrol2b/react-native-voice/ios` folder to the Libraries group on Xcode in your project. [Manual linking](https://reactnative.dev/docs/linking-libraries-ios.html)
+
+- Click on your main project file (the one that represents the `.xcodeproj`) select Build Phases and drag the static library, `lib.Voice.a`, from the `Libraries/Voice.xcodeproj/Products` folder to Link Binary With Libraries
+
+:robot: **android**
+
+How to link the library manually on Android.
+
+- `android/setting.gradle`
 
 ```gradle
 ...
@@ -51,7 +69,7 @@ include ':@react-native-voice_voice', ':app'
 project(':@react-native-voice_voice').projectDir = new File(rootProject.projectDir, '../node_modules/@pedrol2b/react-native-voice/android')
 ```
 
-- In `android/app/build.gradle`
+- `android/app/build.gradle`
 
 ```gradle
 ...
@@ -61,7 +79,7 @@ dependencies {
 }
 ```
 
-- In `MainApplication.java`
+- `MainApplication.java`
 
 ```java
 
@@ -84,17 +102,11 @@ public class MainActivity extends Activity implements ReactApplication {
 }
 ```
 
-### Manually Link iOS
+##### Prebuild Plugin
 
-- Drag the Voice.xcodeproj from the @pedrol2b/react-native-voice/ios folder to the Libraries group on Xcode in your poject. [Manual linking](https://reactnative.dev/docs/linking-libraries-ios.html)
+> :warning: This package cannot be used in the "Expo Go" app because [it requires custom native code](https://docs.expo.io/workflow/customizing/).
 
-- Click on your main project file (the one that represents the .xcodeproj) select Build Phases and drag the static library, lib.Voice.a, from the Libraries/Voice.xcodeproj/Products folder to Link Binary With Libraries
-
-<h2 align="center">Prebuild Plugin</h2>
-
-> This package cannot be used in the "Expo Go" app because [it requires custom native code](https://docs.expo.io/workflow/customizing/).
-
-After installing this npm package, add the [config plugin](https://docs.expo.io/guides/config-plugins/) to the [`plugins`](https://docs.expo.io/versions/latest/config/app/#plugins) array of your `app.json` or `app.config.js`:
+After installing this package, add the [config plugin](https://docs.expo.io/guides/config-plugins/) to the [`plugins`](https://docs.expo.io/versions/latest/config/app/#plugins) array of your `app.json` or `app.config.js`:
 
 ```json
 {
@@ -104,16 +116,13 @@ After installing this npm package, add the [config plugin](https://docs.expo.io/
 }
 ```
 
-Next, rebuild your app as described in the ["Adding custom native code"](https://docs.expo.io/workflow/customizing/) guide.
-
-### Props
-
 The plugin provides props for extra customization. Every time you change the props or plugins, you'll need to rebuild (and `prebuild`) the native app. If no extra properties are added, defaults will be used.
 
 - `speechRecognition` (_string | false_): Sets the message for the `NSSpeechRecognitionUsageDescription` key in the `Info.plist` message. When undefined, a default permission message will be used. When `false`, the permission will be skipped.
+
 - `microphone` (_string | false_): Sets the message for the `NSMicrophoneUsageDescription` key in the `Info.plist`. When undefined, a default permission message will be used. When `false`, the `android.permission.RECORD_AUDIO` will not be added to the `AndroidManifest.xml` and the iOS permission will be skipped.
 
-### Example
+Example
 
 ```json
 {
@@ -129,11 +138,11 @@ The plugin provides props for extra customization. Every time you change the pro
 }
 ```
 
-<h2 align="center">Usage</h2>
+Next, rebuild your app as described in the ["Adding custom native code"](https://docs.expo.io/workflow/customizing/) guide.
 
-<p align="center"><a href="https://github.com/react-native-voice/voice/blob/master/example/src/VoiceTest.tsx">Full example for Android and iOS.</a></p>
+### How to use
 
-### Example
+Example
 
 ```javascript
 import Voice from '@pedrol2b/react-native-voice';
@@ -152,9 +161,9 @@ class VoiceTest extends Component {
 }
 ```
 
-<h2 align="center">API</h2>
+### Voice API
 
-<p align="center">Static access to the Voice API.</p>
+#### Static
 
 **All methods _now_ return a `new Promise` for `async/await` compatibility.**
 
@@ -169,9 +178,9 @@ class VoiceTest extends Component {
 | Voice.isRecognizing()                | Return if the SpeechRecognizer is recognizing.                                                                                                                          | Android, iOS |
 | Voice.getSpeechRecognitionServices() | Returns a list of the speech recognition engines available on the device. (Example: `['com.google.android.googlequicksearchbox']` if Google is the only one available.) | Android      |
 
-<h2 align="center">Events</h2>
+#### Events
 
-<p align="center">Callbacks that are invoked when a native event emitted.</p>
+Callbacks that are invoked when a native event emitted.
 
 | Event Name                          | Description                                            | Event                                           | Platform     |
 | ----------------------------------- | ------------------------------------------------------ | ----------------------------------------------- | ------------ |
@@ -183,17 +192,32 @@ class VoiceTest extends Component {
 | Voice.onSpeechPartialResults(event) | Invoked when any results are computed.                 | `{ value: [..., 'Partial speech recognized'] }` | Android, iOS |
 | Voice.onSpeechVolumeChanged(event)  | Invoked when pitch that is recognized changed.         | `{ value: pitch in dB }`                        | Android      |
 
-<h2 align="center">Permissions</h2>
+#### Permissions
 
-<p align="center">Arguably the most important part.</p>
+:apple: **iOS**
 
-### Android
+Need to include permissions for `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription` inside Info.plist for iOS. See the included `VoiceTest` for how to handle these cases.
+
+```xml
+<dict>
+  ...
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Description of why you require the use of the microphone</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>Description of why you require the use of the speech recognition</string>
+  ...
+</dict>
+```
+
+Please see the documentation provided by ReactNative for this: [PermissionsAndroid](https://reactnative.dev/docs/permissionsandroid.html)
+
+:robot: **android**
 
 While the included `VoiceTest` app works without explicit permissions checks and requests, it may be necessary to add a permission request for `RECORD_AUDIO` for some configurations.
 Since Android M (6.0), [user need to grant permission at runtime (and not during app installation)](https://developer.android.com/training/permissions/requesting.html).
 By default, calling the `startSpeech` method will invoke `RECORD AUDIO` permission popup to the user. This can be disabled by passing `REQUEST_PERMISSIONS_AUTO: true` in the options argument.
 
-If you're running an ejected expo/expokit app, you may run into issues with permissions on Android and get the following error `host.exp.exponent.MainActivity cannot be cast to com.facebook.react.ReactActivity startSpeech`. This can be resolved by prompting for permssion using the `expo-permission` package before starting recognition.
+If you're running an ejected expo/expokit app, you may run into issues with permissions on Android and get the following error `host.exp.exponent.MainActivity cannot be cast to com.facebook.react.ReactActivity startSpeech`. This can be resolved by prompting for permission using the `expo-permission` package before starting recognition.
 
 ```js
 import { Permissions } from "expo";
@@ -212,7 +236,7 @@ async componentDidMount() {
 
 **Notes on Android**
 
-Even after all the permissions are correct in Android, there is one last thing to make sure this libray is working fine on Android. Please make sure the device has Google Speech Recognizing Engine such as `com.google.android.googlequicksearchbox` by calling `Voice.getSpeechRecognitionServices()`. Since Android phones can be configured with so many options, even if a device has googlequicksearchbox engine, it could be configured to use other services. You can check which serivce is used for Voice Assistive App in following steps for most Android phones:
+Even after all the permissions are correct in Android, there is one last thing to make sure this library is working fine on Android. Please make sure the device has Google Speech Recognizing Engine such as `com.google.android.googlequicksearchbox` by calling `Voice.getSpeechRecognitionServices()`. Since Android phones can be configured with so many options, even if a device has googlequicksearchbox engine, it could be configured to use other services. You can check which service is used for Voice Assistive App in following steps for most Android phones:
 
 `Settings > App Management > Default App > Assistive App and Voice Input > Assistive App`
 
@@ -222,28 +246,7 @@ Above flow can vary depending on the Android models and manufactures. For Huawei
 
 Please ask users to install [Google Search App](https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox&hl=en).
 
-### iOS
-
-Need to include permissions for `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription` inside Info.plist for iOS. See the included `VoiceTest` for how to handle these cases.
-
-```xml
-<dict>
-  ...
-  <key>NSMicrophoneUsageDescription</key>
-  <string>Description of why you require the use of the microphone</string>
-  <key>NSSpeechRecognitionUsageDescription</key>
-  <string>Description of why you require the use of the speech recognition</string>
-  ...
-</dict>
-```
-
-Please see the documentation provided by ReactNative for this: [PermissionsAndroid](https://reactnative.dev/docs/permissionsandroid.html)
-
-[npm]: https://img.shields.io/npm/v/@pedrol2b/react-native-voice.svg?style=flat-square
-[npm-url]: https://npmjs.com/package/@pedrol2b/react-native-voice
-[circle-ci-badge]: https://img.shields.io/circleci/project/github/react-native-voice/voice/master.svg?style=flat-square
-
-<h2 align="center">Contributors</h2>
+## Contributors
 
 - @asafron
 - @BrendanFDMoore
@@ -257,3 +260,6 @@ Please see the documentation provided by ReactNative for this: [PermissionsAndro
 - @rudiedev6
 - @tdonia
 - @wenkesj
+
+[npm]: https://img.shields.io/npm/v/@pedrol2b/react-native-voice.svg?style=flat-square
+[npm-url]: https://npmjs.com/package/@pedrol2b/react-native-voice
