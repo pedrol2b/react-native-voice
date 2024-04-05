@@ -58,4 +58,4 @@ workflows:
         - type_check
         filters:
             branches:
-              only: master
+              only: main
