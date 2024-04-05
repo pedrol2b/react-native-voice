@@ -1,23 +1,9 @@
 {
   "name": "@pedrol2b/react-native-voice",
   "description": "React Native Native Voice library for iOS and Android",
+  "main": "dist/index.js",
   "version": "3.2.6",
-  "author": "Pedro Bueno <pedrolbb.e@gmail.com>",
-  "private": false,
-  "homepage": "https://github.com/pedrol2b/react-native-voice",
-  "devDependencies": {
-    "@react-native-community/eslint-config": "^0.0.7",
-    "@semantic-release/git": "^9.0.0",
-    "@tsconfig/node10": "^1.0.7",
-    "@types/invariant": "^2.2.31",
-    "@types/react-native": "0.61.17",
-    "eslint": "^6.8.0",
-    "lint-staged": "^7.2.0",
-    "react": "16.4.2",
-    "react-native": "^0.56.0",
-    "semantic-release": "^17.0.4",
-    "typescript": "3.8.3"
-  },
+  "types": "dist/index.d.ts",
   "keywords": [
     "android",
     "ios",
@@ -25,16 +11,7 @@
     "speech",
     "voice"
   ],
-  "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "peerDependencies": {
-    "react-native": ">= 0.60.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pedrol2b/react-native-voice.git"
-  },
+  "homepage": "https://github.com/pedrol2b/react-native-voice",
   "scripts": {
     "lint": "eslint src/*",
     "semantic-release": "semantic-release",
@@ -48,8 +25,28 @@
     "build:plugin": "tsc --build plugin",
     "lint:plugin": "eslint plugin/src/*"
   },
+  "author": "Pedro Bueno <pedrolbb.e@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "invariant": "^2.2.4",
     "@expo/config-plugins": "^2.0.0"
-  }
+  },
+  "devDependencies": {
+    "@react-native-community/eslint-config": "^0.0.7",
+    "@semantic-release/git": "^9.0.0",
+    "@tsconfig/node10": "^1.0.7",
+    "@types/invariant": "^2.2.31",
+    "@types/react-native": "0.61.17",
+    "eslint": "^6.8.0",
+    "lint-staged": "^7.2.0",
+    "react": "16.4.2",
+    "react-native": "^0.56.0",
+    "semantic-release": "^17.0.4",
+    "typescript": "3.8.3"
+  },
+  "peerDependencies": {
+    "react-native": ">= 0.60.2"
+  },
+  "private": false,
+  "repository": "https://github.com/pedrol2b/react-native-voice.git"
 }
