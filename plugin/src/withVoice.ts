@@ -1,12 +1,18 @@
-import { AndroidConfig, ConfigPlugin, createRunOncePlugin, withInfoPlist } from '@expo/config-plugins'
+import { AndroidConfig, createRunOncePlugin, withInfoPlist, type ConfigPlugin } from '@expo/config-plugins'
 
-const pkg = require('@pedrol2b/react-native-voice/package.json')
+interface Package {
+  name: string
+  version: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { name: packageName, version: packageVersion } = require('@pedrol2b/react-native-voice/package.json') as Package
 
 const MICROPHONE = 'Allow $(PRODUCT_NAME) to access the microphone'
 
 const SPEECH_RECOGNITION = 'Allow $(PRODUCT_NAME) to securely recognize user speech'
 
-export type Props = {
+export interface Props {
   /**
    * `NSSpeechRecognitionUsageDescription` message.
    */
@@ -29,11 +35,11 @@ const withIosPermissions: ConfigPlugin<Props> = (c, { microphonePermission, spee
   return withInfoPlist(c, (config) => {
     if (microphonePermission !== false) {
       config.modResults.NSMicrophoneUsageDescription =
-        microphonePermission || config.modResults.NSMicrophoneUsageDescription || MICROPHONE
+        microphonePermission ?? config.modResults.NSMicrophoneUsageDescription ?? MICROPHONE
     }
     if (speechRecognitionPermission !== false) {
       config.modResults.NSSpeechRecognitionUsageDescription =
-        speechRecognitionPermission || config.modResults.NSSpeechRecognitionUsageDescription || SPEECH_RECOGNITION
+        speechRecognitionPermission ?? config.modResults.NSSpeechRecognitionUsageDescription ?? SPEECH_RECOGNITION
     }
 
     return config
@@ -47,13 +53,14 @@ const withAndroidPermissions: ConfigPlugin = (config) => {
   return AndroidConfig.Permissions.withPermissions(config, ['android.permission.RECORD_AUDIO'])
 }
 
-const withVoice: ConfigPlugin<Props | void> = (config, props = {}) => {
-  const _props = props ? props : {}
+const withVoice: ConfigPlugin<Props> = (config, props = {}) => {
+  const _props = props ?? {}
   config = withIosPermissions(config, _props)
   if (_props.microphonePermission !== false) {
     config = withAndroidPermissions(config)
   }
+
   return config
 }
 
-export default createRunOncePlugin(withVoice, pkg.name, pkg.version)
+export default createRunOncePlugin(withVoice, packageName, packageVersion)
