@@ -1,23 +1,88 @@
-# macOS
-.DS_STORE
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-node_modules
-*.class
-.idea
+# Dependencies
+node_modules/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Testing
+coverage/
 
-# Package Files #
-*.jar
+# Debug logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
 
+# Local environment files
+.env
+.env*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Build
 build/
-VoiceModule.iml
-yarn-error.log
-
-dist
-
+dist/
+web-build/
 plugin/build
 
-# user-specific files
+# Native files
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro bundler
+.metro-health-check*
+
+# macOS specific
+.DS_Store
+*.pem
+
+# VSCODE
+.vscode
+
+# commitizen
+.cz.json
+
+# Xcode
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
+
+# Android/IntelliJ
+.idea
+.gradle
 local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+
+# J2ME
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.class
+VoiceModule.iml
+
+# Bundle artifacts
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/
