@@ -74,8 +74,6 @@ local.properties
 .mtj.tmp/
 
 # Package Files
-*.jar
-*.class
 VoiceModule.iml
 
 # Bundle artifacts
