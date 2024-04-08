@@ -1,0 +1,35 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start --no-dev --minify",
+    "dev": "expo start --dev-client --clear",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "android:clean": "cd android && ./gradlew clean",
+    "android:clean:cache": "cd android && rm -rf .gradle && rm -rf build && rm -rf app/build",
+    "android:clean:all": "yarn android:clean && yarn android:clean:cache",
+    "android:assemble:debug": "cd android && ./gradlew assembleDebug",
+    "prebuild": "expo prebuild --clean --skip-dependency-update react-native"
+  },
+  "author": "Pedro Bueno <pedrolbb.e@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@pedrol2b/react-native-voice": "^3.2.8",
+    "expo": "~50.0.14",
+    "expo-status-bar": "~1.11.1",
+    "react": "18.2.0",
+    "react-native": "0.73.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.2.45",
+    "typescript": "^5.1.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": false,
+  "repository": "https://github.com/pedrol2b/react-native-voice.git"
+}
