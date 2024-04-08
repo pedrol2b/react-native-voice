@@ -3,7 +3,7 @@
   "description": "🎤 React Native Voice Recognition library for iOS and Android (Online and Offline Support)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "3.2.7",
+  "version": "3.2.8",
   "keywords": [
     "android",
     "ios",
@@ -17,7 +17,6 @@
     "build:plugin": "tsc --build plugin",
     "prepare": "yarn build && yarn build:plugin",
     "sync": "cp -r ./dist example/node_modules/@pedrol2b/react-native-voice",
-    "semantic:release": "semantic-release",
     "test": "jest --watchAll",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -38,7 +37,6 @@
     "@babel/core": "^7.24.4",
     "@react-native-community/eslint-config": "^3.2.0",
     "@react-native/babel-preset": "^0.75.0-main",
-    "@semantic-release/git": "^10.0.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.2",
     "@tsconfig/node10": "^1.0.11",
@@ -65,7 +63,6 @@
     "prettier": "^3.2.5",
     "react": "18.2.0",
     "react-native": "^0.73.6",
-    "semantic-release": "^23.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"
   },
