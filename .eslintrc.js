@@ -5,7 +5,6 @@ module.exports = {
     node: true,
   },
   extends: [
-    '@react-native-community',
     'standard-with-typescript',
     'plugin:react/recommended',
     'eslint:recommended',
