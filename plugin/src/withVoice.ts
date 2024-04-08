@@ -6,7 +6,7 @@ interface Package {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { name: packageName, version: packageVersion } = require('@pedrol2b/react-native-voice/package.json') as Package
+const pkg = require('@pedrol2b/react-native-voice/package.json') as Package
 
 const MICROPHONE = 'Allow $(PRODUCT_NAME) to access the microphone'
 
@@ -63,4 +63,4 @@ const withVoice: ConfigPlugin<Props> = (config, props = {}) => {
   return config
 }
 
-export default createRunOncePlugin(withVoice, packageName, packageVersion)
+export default createRunOncePlugin(withVoice, pkg.name, pkg.version)
