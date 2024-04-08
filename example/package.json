@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
-    "@react-native-community/eslint-config": "^3.2.0",
     "@react-native/babel-preset": "^0.75.0-main",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.3.0",
