@@ -6,8 +6,8 @@ on:
     - cron: '0 0 1 * *'
 
 jobs:
-  update_dependencies:
-    name: Update Dependencies
+  update_package_dependencies:
+    name: Update Package Dependencies
     runs-on: ubuntu-latest
 
     strategy:
@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Update Dependencies
+      - name: Update Package Dependencies
         run: |
           yarn global add npm-check-updates
           ncu -u
@@ -45,6 +45,50 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          commit-message: 'build: update dependencies to the latest version'
-          title: 'Update dependencies to the latest version'
-          branch: 'update/dependencies'
+          commit-message: 'build: update package dependencies to their latest version'
+          title: 'Update package dependencies to their latest version'
+
+  update_example_dependencies:
+    name: Update Example Dependencies
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Determine Yarn Cache Directory
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Change to Example Directory
+        run: cd example
+
+      - name: Update Example Dependencies
+        run: |
+          yarn global add npm-check-updates
+          ncu -u
+          yarn install
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: 'build: update example dependencies to their latest version'
+          title: 'Update example dependencies to their latest version'
