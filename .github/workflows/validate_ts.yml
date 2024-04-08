@@ -9,8 +9,8 @@ on:
       - '**.tsx'
 
 jobs:
-  typescript_compilation:
-    name: TypeScript Compilation
+  example_typescript_compilation:
+    name: Example TypeScript Compilation
     runs-on: ubuntu-latest
 
     strategy:
@@ -41,13 +41,15 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+        working-directory: ./example
 
       - name: Compile TypeScript
         run: |
           yarn test:typescript
+        working-directory: ./example
 
-  code_quality_checks:
-    name: Code Quality Checks
+  example_code_quality_checks:
+    name: Example Code Quality Checks
     runs-on: ubuntu-latest
 
     strategy:
@@ -78,12 +80,16 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+        working-directory: ./example
 
       - name: Run Prettier for Code Formatting
         run: yarn pretty
+        working-directory: ./example
 
       - name: Run ESLint for Linting
         run: yarn lint
+        working-directory: ./example
 
       - name: Run Jest for Unit Testing
         run: yarn test:ci
+        working-directory: ./example
