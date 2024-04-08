@@ -1,28 +1,28 @@
-import {
-  AndroidConfig,
-  ConfigPlugin,
-  createRunOncePlugin,
-  withInfoPlist,
-} from '@expo/config-plugins';
+import { AndroidConfig, createRunOncePlugin, withInfoPlist, type ConfigPlugin } from '@expo/config-plugins'
 
-const pkg = require('@pedrol2b/react-native-voice/package.json');
+interface Package {
+  name: string
+  version: string
+}
 
-const MICROPHONE = 'Allow $(PRODUCT_NAME) to access the microphone';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pkg = require('@pedrol2b/react-native-voice/package.json') as Package
 
-const SPEECH_RECOGNITION =
-  'Allow $(PRODUCT_NAME) to securely recognize user speech';
+const MICROPHONE = 'Allow $(PRODUCT_NAME) to access the microphone'
 
-export type Props = {
+const SPEECH_RECOGNITION = 'Allow $(PRODUCT_NAME) to securely recognize user speech'
+
+export interface Props {
   /**
    * `NSSpeechRecognitionUsageDescription` message.
    */
-  speechRecognitionPermission?: string | false;
+  speechRecognitionPermission?: string | false
 
   /**
    * `NSMicrophoneUsageDescription` message.
    */
-  microphonePermission?: string | false;
-};
+  microphonePermission?: string | false
+}
 
 /**
  * Adds `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription` to the `Info.plist`.
@@ -31,44 +31,36 @@ export type Props = {
  * @param props.microphonePermission microphone permission message
  * @returns
  */
-const withIosPermissions: ConfigPlugin<Props> = (
-  c,
-  { microphonePermission, speechRecognitionPermission } = {},
-) => {
-  return withInfoPlist(c, config => {
+const withIosPermissions: ConfigPlugin<Props> = (c, { microphonePermission, speechRecognitionPermission } = {}) => {
+  return withInfoPlist(c, (config) => {
     if (microphonePermission !== false) {
       config.modResults.NSMicrophoneUsageDescription =
-        microphonePermission ||
-        config.modResults.NSMicrophoneUsageDescription ||
-        MICROPHONE;
+        microphonePermission ?? config.modResults.NSMicrophoneUsageDescription ?? MICROPHONE
     }
     if (speechRecognitionPermission !== false) {
       config.modResults.NSSpeechRecognitionUsageDescription =
-        speechRecognitionPermission ||
-        config.modResults.NSSpeechRecognitionUsageDescription ||
-        SPEECH_RECOGNITION;
+        speechRecognitionPermission ?? config.modResults.NSSpeechRecognitionUsageDescription ?? SPEECH_RECOGNITION
     }
 
-    return config;
-  });
-};
+    return config
+  })
+}
 
 /**
  * Adds the following to the `AndroidManifest.xml`: `<uses-permission android:name="android.permission.RECORD_AUDIO" />`
  */
-const withAndroidPermissions: ConfigPlugin = config => {
-  return AndroidConfig.Permissions.withPermissions(config, [
-    'android.permission.RECORD_AUDIO',
-  ]);
-};
+const withAndroidPermissions: ConfigPlugin = (config) => {
+  return AndroidConfig.Permissions.withPermissions(config, ['android.permission.RECORD_AUDIO'])
+}
 
-const withVoice: ConfigPlugin<Props | void> = (config, props = {}) => {
-  const _props = props ? props : {};
-  config = withIosPermissions(config, _props);
+const withVoice: ConfigPlugin<Props> = (config, props = {}) => {
+  const _props = props ?? {}
+  config = withIosPermissions(config, _props)
   if (_props.microphonePermission !== false) {
-    config = withAndroidPermissions(config);
+    config = withAndroidPermissions(config)
   }
-  return config;
-};
 
-export default createRunOncePlugin(withVoice, pkg.name, pkg.version);
+  return config
+}
+
+export default createRunOncePlugin(withVoice, pkg.name, pkg.version)
