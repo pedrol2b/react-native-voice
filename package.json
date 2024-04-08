@@ -28,6 +28,7 @@
     "invariant": "^2.2.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.4",
     "@react-native/babel-preset": "^0.75.0-main",
     "@types/invariant": "^2.2.37",
     "@types/node": "^20.12.4",
