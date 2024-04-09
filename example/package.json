@@ -8,6 +8,7 @@
     "ios": "expo run:ios"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "@pedrol2b/react-native-voice": "git+https://github.com/pedrol2b/react-native-voice.git#release/3.2.9",
     "expo": "~50.0.14",
     "expo-status-bar": "~1.11.1",
