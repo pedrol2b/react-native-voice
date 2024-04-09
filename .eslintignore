@@ -2,6 +2,7 @@ node_modules/
 coverage/
 android/
 ios/
+example/
 build/
 dist/
 lib/
