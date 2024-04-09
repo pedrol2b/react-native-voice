@@ -68,6 +68,7 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+**/*.keystore
 
 # J2ME
 .mtj.tmp/
