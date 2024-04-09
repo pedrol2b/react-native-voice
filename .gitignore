@@ -22,7 +22,7 @@ yarn-error.*
 build/
 dist/
 web-build/
-plugin/build
+plugin/dist
 
 # Native files
 *.orig.*

@@ -3,12 +3,12 @@
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-native",
-    "lib": ["ES2016"],
+    "lib": ["DOM", "ESNext"],
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "target": "es6",
+    "target": "ESNext",
     "strict": true,
     "strictPropertyInitialization": false,
     "declaration": true,
@@ -17,5 +17,7 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src"]
+  "references": [{ "path": "./plugin" }],
+  "include": ["src"],
+  "exclude": ["node_modules", "example"]
 }

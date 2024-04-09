@@ -6,9 +6,7 @@ module.exports = {
   },
   extends: [
     'standard-with-typescript',
-    'plugin:react/recommended',
     'eslint:recommended',
-    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -24,12 +22,13 @@ module.exports = {
         sourceType: 'script',
       },
     },
-  ],
-  settings: {
-    react: {
-      version: 'detect',
+    {
+      files: ['plugin/src/*.ts'],
+      parserOptions: {
+        project: './plugin/tsconfig.json',
+      },
     },
-  },
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -39,17 +38,13 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier'],
   rules: {
-    'react/display-name': 'off',
-    'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/triple-slash-reference': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/no-confusing-void-expression': 'off',
     '@typescript-eslint/naming-convention': 'warn',
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
   },
 }
