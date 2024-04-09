@@ -23,6 +23,12 @@ module.exports = {
         sourceType: 'script',
       },
     },
+    {
+      files: ['example/**/*'],
+      parserOptions: {
+        project: './example/tsconfig.json',
+      },
+    },
   ],
   parserOptions: {
     ecmaFeatures: {
