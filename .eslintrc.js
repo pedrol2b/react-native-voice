@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
@@ -20,12 +21,6 @@ module.exports = {
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
         sourceType: 'script',
-      },
-    },
-    {
-      files: ['plugin/src/*.ts'],
-      parserOptions: {
-        project: './plugin/tsconfig.json',
       },
     },
   ],

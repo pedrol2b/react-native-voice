@@ -1,34 +1,41 @@
 {
   "name": "@pedrol2b/react-native-voice",
+  "version": "3.2.9",
   "description": "🎤 React Native Voice Recognition library for iOS and Android (Online and Offline Support)",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "version": "3.2.8",
-  "keywords": [
-    "android",
-    "ios",
-    "react-native",
-    "speech",
-    "voice"
-  ],
-  "homepage": "https://github.com/pedrol2b/react-native-voice",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "build:plugin": "tsc --build plugin",
-    "prepare": "yarn build && yarn build:plugin",
+    "build": "tsc --build",
+    "prepare": "yarn build",
     "test:typescript": "tsc --noEmit",
     "lint": "eslint \"src/**/*\"",
     "lint:fix": "eslint --fix \"src/**/*\"",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
   },
+  "keywords": [
+    "react",
+    "native",
+    "react-native",
+    "android",
+    "ios",
+    "library",
+    "voice",
+    "speech",
+    "recognition",
+    "react-native-voice"
+  ],
   "author": "Pedro Bueno <pedrolbb.e@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pedrol2b/react-native-voice/issues"
+  },
+  "homepage": "https://github.com/pedrol2b/react-native-voice",
   "dependencies": {
-    "@expo/config-plugins": "^7.8.4",
     "invariant": "^2.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
+    "@expo/config-plugins": "^7.8.4",
     "@react-native/babel-preset": "^0.75.0-main",
     "@types/invariant": "^2.2.37",
     "@types/node": "^20.12.4",

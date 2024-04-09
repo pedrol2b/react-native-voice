@@ -4,6 +4,7 @@ android/
 ios/
 build/
 dist/
+lib/
 
 *.svg
 *.png

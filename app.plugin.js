@@ -1,1 +1,1 @@
-module.exports = require('./plugin/dist/withVoice')
+module.exports = require('./lib/expo-plugin/withVoice')

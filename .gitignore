@@ -21,8 +21,7 @@ yarn-error.*
 # Build
 build/
 dist/
-web-build/
-plugin/dist
+lib/
 
 # Native files
 *.orig.*
