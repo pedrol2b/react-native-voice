@@ -23,20 +23,6 @@ module.exports = {
         sourceType: 'script',
       },
     },
-    {
-      files: ['example/**/*.{ts,tsx}'],
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: './example',
-      },
-    },
-    {
-      files: ['example/**/*.js'],
-      parserOptions: {
-        project: null,
-      },
-    },
   ],
   parserOptions: {
     ecmaFeatures: {

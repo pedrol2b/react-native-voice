@@ -7,12 +7,6 @@
   "scripts": {
     "build": "tsc --build",
     "prepare": "yarn build",
-    "example:prebuild": "cd example && yarn expo prebuild --clean --skip-dependency-update react-native",
-    "example:android:clean": "cd example/android && ./gradlew clean",
-    "example:android:clean:cache": "cd example/android && rm -rf .gradle && rm -rf build && rm -rf app/build",
-    "example:android:clean:all": "yarn example:android:clean && yarn example:android:clean:cache",
-    "example:android:assemble:debug": "cd example/android && ./gradlew assembleDebug",
-    "example:android:assemble:release": "cd example/android && ./gradlew assembleRelease",
     "test:typescript": "tsc --noEmit",
     "lint": "eslint \"src/**/*\"",
     "lint:fix": "eslint --fix \"src/**/*\"",
