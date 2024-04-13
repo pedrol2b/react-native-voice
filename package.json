@@ -55,7 +55,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"
   },
-  "packageManager": "yarn@1.22.22",
-  "private": false,
+  "engines": {
+    "node": ">=18"
+  },
   "repository": "https://github.com/pedrol2b/react-native-voice.git"
 }
