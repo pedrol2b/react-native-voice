@@ -1,4 +1,3 @@
-import invariant from 'invariant'
 import { NativeEventEmitter, NativeModules, Platform } from 'react-native'
 import {
   type SpeechEndEvent,
@@ -14,6 +13,7 @@ import {
   type TranscriptionResultsEvent,
   type TranscriptionStartEvent,
 } from './VoiceModuleTypes'
+import { assert } from './utils/assert'
 
 const Voice = NativeModules.Voice
 
@@ -249,7 +249,7 @@ class RCTVoice {
    * */
   getSpeechRecognitionServices() {
     if (Platform.OS !== 'android') {
-      invariant(Voice, 'Speech recognition services can be queried for only on Android')
+      assert(Voice, 'Speech recognition services can be queried for only on Android')
       return
     }
 
