@@ -39,7 +39,7 @@ jobs:
       - name: Update Dependencies
         run: |
           yarn global add npm-check-updates
-          ncu -u
+          ncu -x eslint* -u
           yarn install
 
       - name: Create Pull Request
