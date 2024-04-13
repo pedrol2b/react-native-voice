@@ -38,10 +38,10 @@
     "@expo/config-plugins": "^7.8.4",
     "@react-native/babel-preset": "^0.75.0-main",
     "@types/invariant": "^2.2.37",
-    "@types/node": "^20.12.4",
-    "@types/react": "^18.2.74",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.78",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
@@ -53,7 +53,7 @@
     "react": "18.2.0",
     "react-native": "^0.73.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=18"
