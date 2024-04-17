@@ -121,6 +121,10 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
               extras.intValue());
           break;
         }
+        case "EXTRA_PREFER_OFFLINE": {
+          intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, opts.getBoolean(key));
+          break;
+        }
       }
     }
 
